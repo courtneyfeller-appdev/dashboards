@@ -27,8 +27,14 @@ class CurrencyController < ApplicationController
       @first_currency = params.fetch("first_currency")
       @second_currency = params.fetch("second_currency")
 
-      raw_data = open("https://api.exchangerate.host/convert?from=<%=@first_currency%>&to=<%=@second_currency%>").read
-      @parsed_data = JSON.parse(raw_data)
+      url = "https://api.exchangerate.host/convert?from=" + @first_currency + "&to=" + @second_currency
+
+      raw_data = open(url).read
+      parsed_data = JSON.parse(raw_data)
+      @result = parsed_data.fetch("result")
+     
+    
+
 
       render({:template => "/currency_layouts/convertedcurrency.html.erb"})
     end
